@@ -1,4 +1,5 @@
 import os
+import sys
 import platform
 import subprocess
 import warnings
@@ -8,6 +9,9 @@ import numpy
 from Cython.Build import cythonize
 from setuptools import Extension, setup
 
+ENV = os.environ.copy()
+ENV_PATH = sys.exec_prefix + '/bin/'
+ENV["PATH"] = ENV_PATH+":"+ENV["PATH"]
 
 # we assume that you have either installed tempo2 via install_tempo2.sh in the default location
 # or you have installed in the usual /usr/local
@@ -32,7 +36,7 @@ def _get_tempo2_install_location():
 
     # if not, check for tempo2 binary in path
     try:
-        out = subprocess.check_output("which tempo2", shell=True)
+        out = subprocess.check_output("which tempo2", shell=True, env=ENV)
         out = out.decode().strip()
     except subprocess.CalledProcessError:
         warnings.warn(("tempo2 does not appear to be in your path."))
