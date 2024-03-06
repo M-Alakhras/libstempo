@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 ENV = os.environ.copy()
 ENV_PATH = sys.exec_prefix + '/bin/'
-ENV["PATH"] = ENV["PATH"]+':'+ENV
+ENV["PATH"] = ENV_PATH+":"+ENV["PATH"]
 
 RUNTIME_DIRS = ("atmosphere", "clock", "earth", "ephemeris", "observatory", "solarWindModel")
 HOME = os.getenv("HOME")
