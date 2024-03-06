@@ -1,10 +1,15 @@
 import logging
 import os
+import sys
 import subprocess
 import warnings
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+ENV = os.environ.copy()
+ENV_PATH = sys.exec_prefix + '/bin/'
+ENV["PATH"] = ENV["PATH"]+':'+ENV
 
 RUNTIME_DIRS = ("atmosphere", "clock", "earth", "ephemeris", "observatory", "solarWindModel")
 HOME = os.getenv("HOME")
@@ -23,7 +28,7 @@ def find_tempo2_runtime():
 
     # if not, check for tempo2 binary in path
     try:
-        out = subprocess.check_output("which tempo2", shell=True)
+        out = subprocess.check_output("which tempo2", shell=True, env=ENV)
         out = out.decode().strip()
     except subprocess.CalledProcessError:
         warnings.warn("Could not find tempo2 executable in your path")
